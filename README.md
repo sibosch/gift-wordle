@@ -1,4 +1,4 @@
-EDIT: This is a modified version of the [original](https://github.com/MikhaD/wordle).
+EDIT: This is a modified version of the [original](https://github.com/MikhaD/wordle). @sibosch
 
 ![Wordle+](https://raw.githubusercontent.com/MikhaD/wordle/main/public/img/og_1200x630.png)
 <div align="center">
