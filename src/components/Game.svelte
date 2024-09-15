@@ -55,11 +55,13 @@
 	let board: Board;
 	let timer: Timer;
 
-	function submitWord() {
+	const imageUrls = [];
+
+	function submitWord() {		
 		if (game.latestWord.length !== COLS) {
 			toaster.pop("Not enough letters");
 			board.shake(game.guesses);
-		} else if (words.contains(game.latestWord)) {
+		} else {
 			if (game.guesses > 0) {
 				const hm = game.checkHardMode();
 				if ($settings.hard[$mode]) {
@@ -82,12 +84,49 @@
 			++game.guesses;
 			$letterStates.update(game.lastState, game.lastWord);
 			$letterStates = $letterStates;
+
+        	showImageForCorrectLetter()
+			
 			if (game.lastWord === word) win();
 			else if (game.guesses === ROWS) lose();
-		} else {
-			toaster.pop("Not in word list");
-			board.shake(game.guesses);
 		}
+	}
+
+	function showImageForCorrectLetter() {
+		for (let i = 0; i < game.lastWord.length; i++) {
+    		let letter = game.lastWord[i];
+			const imageUrl = getImageUrl(letter);
+			if(imageUrl && imageUrl.trim() !== ''){
+  				imageUrls.push(imageUrl);
+			};
+		};
+		// Filter unique urls
+		const uniqueImageUrls = Array.from(new Set(imageUrls));
+		// Open a single tab with all images
+		if (game.lastWord !== word){
+			if (uniqueImageUrls.length > 0) {
+				setTimeout(() => {
+					const newTab = window.open('about:blank', '_blank');
+					newTab.document.write('<html><body>' +
+						uniqueImageUrls.map(url => `<img src="${url}" style="display:block; margin-bottom:10px;">`).join('') +
+						'</body></html>')
+					newTab.document.close();
+				}, 1500);
+    		};
+		};
+	}
+	
+	function getImageUrl(letter) {
+    	// Define a mapping of letters to image URLs
+    	const lettersToImageUrls = {
+       		'E': '/wordle/img/Wordle_E.jpeg',
+        	'I': '/wordle/img/Wordle_I.jpeg',
+        	'F': '/wordle/img/Wordle_F.jpeg',
+        	'G': '/wordle/img/Wordle_G.jpeg'
+    	};
+	    // Get the image URL based on the letter
+    	const url = lettersToImageUrls[letter.toUpperCase()] || '';    
+	    return url;
 	}
 
 	function win() {
