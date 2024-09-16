@@ -112,9 +112,11 @@
 			}, 3000);
 		}
 		else{
-			setTimeout(() => {
-				window.open(imageUrl, '_blank');
-			}, 1500);
+			if(imageUrl){
+				setTimeout(() => {
+					window.open(imageUrl, '_blank');
+				}, 1500);
+			}
 		}
 	}
 	
