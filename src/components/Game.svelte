@@ -92,40 +92,42 @@
 		}
 	}
 
+	const foundLetters = []
+
 	function showImageForCorrectLetter() {
+		let imageUrl = '';
 		for (let i = 0; i < game.lastWord.length; i++) {
-    		let letter = game.lastWord[i];
-			const imageUrl = getImageUrl(letter);
-			if(imageUrl && imageUrl.trim() !== ''){
-  				imageUrls.push(imageUrl);
+    		// check if letter is in solution
+			let letter = game.lastWord[i];
+			if (word.includes(letter) && !foundLetters.includes(letter)) {
+				foundLetters.push(letter)
 			};
+			const count = foundLetters.length;
+			imageUrl = getImageUrl(count);
 		};
-		// Filter unique urls
-		const uniqueImageUrls = Array.from(new Set(imageUrls));
-		// Open a single tab with all images
-		if (game.lastWord !== word){
-			if (uniqueImageUrls.length > 0) {
-				setTimeout(() => {
-					const newTab = window.open('about:blank', '_blank');
-					newTab.document.write('<html><body>' +
-						uniqueImageUrls.map(url => `<img src="${url}" style="display:block; margin-bottom:10px;">`).join('') +
-						'</body></html>')
-					newTab.document.close();
-				}, 1500);
-    		};
-		};
+		// Open a single tab with image from url
+		if (game.lastWord === word){
+			setTimeout(() => {
+				window.open(getImageUrl(4), '_blank');
+			}, 3000);
+		}
+		else{
+			setTimeout(() => {
+				window.open(imageUrl, '_blank');
+			}, 1500);
+		}
 	}
 	
-	function getImageUrl(letter) {
-    	// Define a mapping of letters to image URLs
-    	const lettersToImageUrls = {
-       		'E': '/wordle/img/Wordle_E.jpeg',
-        	'I': '/wordle/img/Wordle_I.jpeg',
-        	'F': '/wordle/img/Wordle_F.jpeg',
-        	'G': '/wordle/img/Wordle_G.jpeg'
-    	};
-	    // Get the image URL based on the letter
-    	const url = lettersToImageUrls[letter.toUpperCase()] || '';    
+	function getImageUrl(number: number) {
+    	// Define a mapping of number of correct letter to image URLs
+    	const numberToImageUrls = new Map([
+			[1, '/wordle/img/Wordle_1.png'],
+			[2, '/wordle/img/Wordle_2.png'],
+			[3, '/wordle/img/Wordle_3.png'],
+			[4, '/wordle/img/Wordle_4.png']
+		]);
+	    // Get the image URL based on the number
+		const url = numberToImageUrls.get(number) || '';
 	    return url;
 	}
 
