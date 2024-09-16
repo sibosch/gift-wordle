@@ -1,4 +1,6 @@
-EDIT: This is a modified version of the [original](https://github.com/MikhaD/wordle). @sibosch
+EDIT: This is a modified version of the [original](https://github.com/MikhaD/wordle).
+To run on my machine: 'nmp install' & 'npm run dev'
+@sibosch
 
 ![Wordle+](https://raw.githubusercontent.com/MikhaD/wordle/main/public/img/og_1200x630.png)
 <div align="center">
